@@ -11,6 +11,7 @@ let board=document.querySelector('#board');
 let food = {x: 4,y: 6};
 let scoreElem=document.querySelector('#score');
 let highscoreElem=document.querySelector('#highscore');
+const root = document.querySelector(":root");
 
 function main(gameRefreshtime){
   window.requestAnimationFrame(main);
@@ -111,24 +112,28 @@ window.addEventListener('keydown',function(res){
       // console.log("up");
       inputDir.x=0;
       inputDir.y=-1;
+      root.style.setProperty("--pseudo-rotate", 'rotate(180deg)');
       break;
 
       case "ArrowDown":
       // console.log('down');
       inputDir.x=0;
       inputDir.y=1;
+      root.style.setProperty("--pseudo-rotate", 'rotate(0deg)');
       break;
 
       case "ArrowLeft":
       // console.log('left');
       inputDir.x=-1;
       inputDir.y=0;
+      root.style.setProperty("--pseudo-rotate", 'rotate(90deg)');
       break;
 
       case "ArrowRight":
       // console.log('right');
       inputDir.x=1;
       inputDir.y=0;
+      root.style.setProperty("--pseudo-rotate", 'rotate(270deg)');
       break;
 
       default:
