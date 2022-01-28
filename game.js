@@ -1,17 +1,21 @@
+let snakeArr=[{x: 9,y: 9}];
+let food = {x: 4,y: 14};
+
 let inputDir={x: 0, y: 0};
-let foodSound=new Audio("sound/eat.mp3");
-let gameOverSound=new Audio("sound/gameover.aac");
-let moveSound=new Audio("sound/move.mp3");
-let speed=8;
+let speed=7;
 let score=0;
 let lastScreenDisplay=0;
 let boardSize=19;
-let snakeArr=[{x: 9,y: 9}];
+
+
 let board=document.querySelector('#board');
-let food = {x: 4,y: 6};
 let scoreElem=document.querySelector('#score');
 let highscoreElem=document.querySelector('#highscore');
 const root = document.querySelector(":root");
+
+let foodSound=new Audio("sound/eat.mp3");
+let gameOverSound=new Audio("sound/gameover.aac");
+let moveSound=new Audio("sound/move.mp3");
 
 function main(gameRefreshtime){
   window.requestAnimationFrame(main);
@@ -33,7 +37,7 @@ function isCollide(snakeArr){
     }
   }
   // console.log(snakeArr[0].x,snakeArr[0].y);
-  if(snakeArr[0].x>=19 || snakeArr[0].x<=0 || snakeArr[0].y>=19 || snakeArr[0].y<=0){
+  if(snakeArr[0].x>=boardSize+1 || snakeArr[0].x<=0 || snakeArr[0].y>=boardSize+1 || snakeArr[0].y<=0){
     // console.log('border');
     return true;
   }
@@ -47,7 +51,7 @@ function runGame(){
     alert('Game Over!! '+'Your score : '+score+'\nPress OK to play again...');
     snakeArr=[{x: 9,y: 9}];
     score=0;
-    food = {x: 4,y: 6};
+    food = {x: 4,y: 14};
     scoreElem.innerHTML="Score : " + score;
   }
 
@@ -103,11 +107,11 @@ else{
   highscoreval=JSON.parse(highscore);
   highscoreElem.innerHTML="High Score : " + highscore;
 }
-window.requestAnimationFrame(main);
-window.addEventListener('keydown',function(res){
+
+function movement(key){
   inputDir={x: 0,y: 1};
   moveSound.play();
-  switch (res.key) {
+  switch (key) {
       case "ArrowUp":
       // console.log("up");
       inputDir.x=0;
@@ -139,4 +143,18 @@ window.addEventListener('keydown',function(res){
       default:
       break;
   }
+}
+
+var btns=document.querySelectorAll('.button');
+btns.forEach((elem)=>{
+  elem.addEventListener('click',(event)=>{
+    // console.log(event.target.innerHTML);
+    movement("Arrow"+event.target.innerHTML);
+  })
+});
+
+
+window.requestAnimationFrame(main);
+window.addEventListener('keydown',function(res){
+  movement(res.key);
 });
